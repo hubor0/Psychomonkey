@@ -1,0 +1,10 @@
+C:\Users\hubert\Documents\BTD6 Mod Sources\psychomonkey\bin\Debug\net6.0\psychomonkey.deps.json
+C:\Users\hubert\Documents\BTD6 Mod Sources\psychomonkey\bin\Debug\net6.0\psychomonkey.dll
+C:\Users\hubert\Documents\BTD6 Mod Sources\psychomonkey\obj\Debug\net6.0\psychomonkey.csproj.AssemblyReference.cache
+C:\Users\hubert\Documents\BTD6 Mod Sources\psychomonkey\obj\Debug\net6.0\psychomonkey.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\hubert\Documents\BTD6 Mod Sources\psychomonkey\obj\Debug\net6.0\psychomonkey.AssemblyInfoInputs.cache
+C:\Users\hubert\Documents\BTD6 Mod Sources\psychomonkey\obj\Debug\net6.0\psychomonkey.AssemblyInfo.cs
+C:\Users\hubert\Documents\BTD6 Mod Sources\psychomonkey\obj\Debug\net6.0\psychomonkey.csproj.CoreCompileInputs.cache
+C:\Users\hubert\Documents\BTD6 Mod Sources\psychomonkey\obj\Debug\net6.0\psychomonkey.dll
+C:\Users\hubert\Documents\BTD6 Mod Sources\psychomonkey\obj\Debug\net6.0\refint\psychomonkey.dll
+C:\Users\hubert\Documents\BTD6 Mod Sources\psychomonkey\obj\Debug\net6.0\ref\psychomonkey.dll
