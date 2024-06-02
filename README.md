@@ -6,7 +6,7 @@
 Psychomonkey
 </h1>
 
-### Adds a new Psychomonkey Tower, a new Magic Tower that uses Psychic magic to pop Bloons!
+### Adds a new Psychomonkey Tower, a new Magic Tower that uses Psychic powers to pop Bloons!
 
 This tower Contains:
 * 15 Complete Upgrades
