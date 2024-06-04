@@ -364,6 +364,7 @@ namespace Psychomonkey
                 var neuroknife = Game.instance.model.GetTowerFromId("DartMonkey-100").GetAttackModel().Duplicate();
                 neuroknife.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Moab", "Moab", 1, 12, false, true));
                 neuroknife.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Bfb", "Bfb", 1, 13, false, true));
+                neuroknife.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Ddt", "Ddt", 1, 2, false, true));
                 neuroknife.weapons[0].Rate = 0.35f;
                 neuroknife.weapons[0].projectile.GetDamageModel().damage = 4;
                 neuroknife.weapons[0].projectile.pierce = 4;
@@ -381,6 +382,7 @@ namespace Psychomonkey
                 neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Moab", "Moab", 1, 40, false, true));
                 neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Bfb", "Bfb", 1, 56, false, true));
                 neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Zomg", "Zomg", 1, 18, false, true));
+                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Ddt", "Ddt", 1, 3, false, true));
                 neurosword.weapons[0].projectile.ApplyDisplay<sword>();
                 neurosword.weapons[0].projectile.scale += 1.05f;
                 neurosword.name = "neurosword";
@@ -607,7 +609,7 @@ namespace Psychomonkey
                 towerModel.GetAbility().RemoveBehavior<CreateSoundOnAbilityModel>();
                 towerModel.GetAbility().AddBehavior(Game.instance.model.GetTowerFromId("AdmiralBrickell 20").GetBehavior<AbilityModel>().GetBehavior<CreateEffectOnAbilityModel>());
                 towerModel.GetAbility().AddBehavior(Game.instance.model.GetTowerFromId("Adora 20").GetBehavior<AbilityModel>().GetBehavior<CreateSoundOnAbilityModel>());
-                towerModel.GetAbility().cooldown = 405f;
+                towerModel.GetAbility().cooldown = 315f;
                 var activate = towerModel.GetAbility().GetBehavior<ActivateAttackModel>().attacks[0];
                 activate.weapons[0].projectile.pierce = 99999999.0f;
                 activate.weapons[0].projectile.scale *= 20;
