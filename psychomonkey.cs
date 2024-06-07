@@ -329,7 +329,7 @@ namespace Psychomonkey
             public override string Portrait => "300copy";
             public override string Icon => "u300";
             public override string DisplayName => "Psyclone Disk";
-            public override string Description => "Sometimes casts a Psyclone Disk attack that jumps from Bloon to Bloon.";
+            public override string Description => "Sometimes casts a Psyclone Disk attack that jumps from Bloon to Bloon and strips Camo and Regrow.";
             public override void ApplyUpgrade(TowerModel towerModel)
             {
                 towerModel.ApplyDisplay<tower.display300>();
@@ -343,6 +343,11 @@ namespace Psychomonkey
                 disk.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.Purple;
                 disk.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.Lead;
                 disk.name = "psyclonedisk";
+                disk.weapons[0].projectile.collisionPasses = new int[] { 0, -1 };
+                var decamo = Game.instance.model.GetTowerFromId("NinjaMonkey-020").GetWeapon().projectile.GetBehavior<RemoveBloonModifiersModel>().Duplicate<RemoveBloonModifiersModel>();
+                decamo.cleanseCamo = true;
+                decamo.cleanseRegen = true;
+                disk.weapons[0].projectile.AddBehavior(decamo);
                 towerModel.AddBehavior(disk);
             }
         }
@@ -354,17 +359,17 @@ namespace Psychomonkey
             public override string Portrait => "400copy";
             public override string Icon => "u400";
             public override string DisplayName => "Neo Bladesurge";
-            public override string Description => "Rapidly Launches knives which deal high damage to weaker MOAB Bloons and sometimes Swords which penetrate all Bloons.";
+            public override string Description => "Rapidly Launches sharp knives which weaken small MOAB Bloons, and sometimes Swords which penetrate all Bloons and can strip Fortified properties.";
             public override void ApplyUpgrade(TowerModel towerModel)
             {
                 towerModel.ApplyDisplay<tower.display400>();
-                towerModel.range += 20;
+                towerModel.range += 27;
                 var attackModel = towerModel.GetAttackModel();
-                attackModel.range += 20;
+                attackModel.range += 27;
                 var neuroknife = Game.instance.model.GetTowerFromId("DartMonkey-100").GetAttackModel().Duplicate();
-                neuroknife.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Moab", "Moab", 1, 12, false, true));
-                neuroknife.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Bfb", "Bfb", 1, 13, false, true));
-                neuroknife.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Ddt", "Ddt", 1, 2, false, true));
+                neuroknife.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Moab", "Moab", 1, 5, false, true));
+                neuroknife.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Bfb", "Bfb", 1, 6, false, true));
+                neuroknife.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Ddt", "Ddt", 1, 3, false, true));
                 neuroknife.weapons[0].Rate = 0.35f;
                 neuroknife.weapons[0].projectile.GetDamageModel().damage = 4;
                 neuroknife.weapons[0].projectile.pierce = 4;
@@ -373,26 +378,32 @@ namespace Psychomonkey
                 neuroknife.name = "neuroknife";
                 neuroknife.range = towerModel.range;
                 neuroknife.weapons[0].projectile.GetBehavior<TravelStraitModel>().Lifespan = 99f;
+                var debuff = Game.instance.model.GetTowerFromId("IceMonkey-500").GetWeapon().projectile.GetBehavior<AddBonusDamagePerHitToBloonModel>().Duplicate<AddBonusDamagePerHitToBloonModel>();
+                debuff.perHitDamageAddition = 1.7f;
+                neuroknife.weapons[0].projectile.AddBehavior(debuff);
                 var neurosword = Game.instance.model.GetTowerFromId("DartMonkey-200").GetAttackModel().Duplicate();
                 neurosword.weapons[0].projectile.GetDamageModel().damage = 10;
                 neurosword.weapons[0].projectile.pierce = 20;
                 neurosword.weapons[0].Rate = 2.5f;
                 neurosword.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
-                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("DamageModifierForTagModel_Ceramic", "Ceramic", 1, 24, false, false));
-                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Moab", "Moab", 1, 40, false, true));
-                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Bfb", "Bfb", 1, 56, false, true));
-                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Zomg", "Zomg", 1, 18, false, true));
-                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Ddt", "Ddt", 1, 3, false, true));
+                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("DamageModifierForTagModel_Ceramic", "Ceramic", 1, 18, false, false));
+                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Moab", "Moab", 1, 19, false, true));
+                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Bfb", "Bfb", 1, 23, false, true));
+                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Zomg", "Zomg", 1, 10, false, true));
+                neurosword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Ddt", "Ddt", 1, 4, false, true));
+                var defort = Game.instance.model.GetTowerFromId("NinjaMonkey-020").GetWeapon().projectile.GetBehavior<RemoveBloonModifiersModel>().Duplicate<RemoveBloonModifiersModel>();
+                defort.cleanseFortified = true;
                 neurosword.weapons[0].projectile.ApplyDisplay<sword>();
                 neurosword.weapons[0].projectile.scale += 1.05f;
                 neurosword.name = "neurosword";
                 neurosword.range = towerModel.range;
                 neurosword.weapons[0].projectile.GetBehavior<TravelStraitModel>().Lifespan = 999f;
+                neurosword.weapons[0].projectile.AddBehavior(defort);
                 towerModel.AddBehavior(neuroknife);
                 towerModel.AddBehavior(neurosword);
             }
         }
-        public class u500 : ModUpgrade<Psychomonkey>
+                public class u500 : ModUpgrade<Psychomonkey>
         {
             public override int Path => TOP;
             public override int Tier => 5;
@@ -412,9 +423,9 @@ namespace Psychomonkey
                 disk.weapons[0].projectile.GetDamageModel().damage += 15;
                 disk.weapons[0].Rate -= 1.5f;
                 disk.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("DamageModifierForTagModel_Ceramic", "Ceramic", 1, 30, false, false));
-                sword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Bad", "Bad", 1, 125, false, true));
-                sword.weapons[0].projectile.GetDamageModel().damage += 16;
-                knife.weapons[0].projectile.GetDamageModel().damage += 7;
+                sword.weapons[0].projectile.AddBehavior(new DamageModifierForTagModel("Bad", "Bad", 1, 85, false, true));
+                sword.weapons[0].projectile.GetDamageModel().damage += 9;
+                knife.weapons[0].projectile.GetDamageModel().damage += 3;
                 sword.weapons[0].projectile.pierce += 20;
                 sword.weapons[0].emission = new ArcEmissionModel("ArcEmissionModel_", 3, 0, 30, null, false, false);
                 knife.weapons[0].emission = new ArcEmissionModel("ArcEmissionModel_", 3, 0, 30, null, false, false);
@@ -445,7 +456,7 @@ namespace Psychomonkey
                 var attackModel = towerModel.GetAttackModel();
                 attackModel.weapons[0].projectile.GetBehavior<TravelStraitModel>().Speed = 50f;
                 attackModel.weapons[0].projectile.ApplyDisplay<eqproj>();
-                attackModel.weapons[0].rate = 1.7f;
+                attackModel.weapons[0].rate = 2f;
                 attackModel.weapons[0].projectile.pierce = 1;
                 attackModel.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("BombShooter").GetWeapon().projectile.GetBehavior<CreateEffectOnContactModel>().Duplicate());
                 attackModel.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("BombShooter-020").GetWeapon().projectile.GetBehavior<CreateProjectileOnContactModel>().Duplicate());
@@ -597,7 +608,7 @@ namespace Psychomonkey
             public override string Portrait => "050copy";
             public override string Icon => "u050";
             public override string DisplayName => "Chronomancer";
-            public override string Description => "The Chronomancer bends time's flow, rewinding all visible Bloons to their origin";
+            public override string Description => "The Chronomancer bends time's flow, rewinding all visible Bloons to their starting point";
 
             public override void ApplyUpgrade(TowerModel towerModel)
             {
