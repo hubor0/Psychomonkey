@@ -77,6 +77,12 @@ namespace Psychomonkey
 
             public override string DisplayName => "Psychomonkey";
 
+            public override ParagonMode ParagonMode => ParagonMode.Base555;
+
+            public override bool IsValidCrosspath(int[] tiers) =>
+            ModHelper.HasMod("UltimateCrosspathing") || base.IsValidCrosspath(tiers);
+            // For Crosspathing Compatibility! :D
+
             public override void ModifyBaseTowerModel(TowerModel towerModel)
             {
                 towerModel.ApplyDisplay<tower.basedisplay>();
@@ -190,6 +196,16 @@ namespace Psychomonkey
             public override void ModifyDisplayNode(UnityDisplayNode node)
             {
                 Set2DTexture(node, Name);
+            }
+        }
+        public class Paragon : ModParagonUpgrade<Psychomonkey>
+        {
+            public override int cost => 100000; // COST
+            public override string Description => "Description";
+            public override string DisplayName => "Name";
+            public override void Apply Upgrade(TowerModel towerModel)
+            {
+                // uses 555 mode so you can add more stuff if you want dont matter much tho
             }
         }
         public class u010 : ModUpgrade<Psychomonkey>
