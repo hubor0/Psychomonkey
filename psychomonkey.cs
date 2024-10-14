@@ -52,11 +52,7 @@ namespace Psychomonkey
         }
         public override void OnWeaponFire(Weapon weapon)
         {
-            if (weapon.attack.tower.towerModel.name.Contains("psychomonkey-Psychomonkey"))
-            {
-                weapon.attack.tower.Node.graphic.GetComponent<Animator>().SetTrigger("Punch");
-            }
-            if (weapon.attack.tower.towerModel.name.Contains("psychomonkey-Golem"))
+            if (weapon.attack.tower.towerModel.name.Contains("psychomonkey"))
             {
                 weapon.attack.tower.Node.graphic.GetComponent<Animator>().SetTrigger("Punch");
             }
@@ -68,7 +64,7 @@ namespace Psychomonkey
 
             public override TowerSet TowerSet => TowerSet.Magic;
             public override string BaseTower => TowerType.DartMonkey;
-            public override int Cost => 430;
+            public override int Cost => 730;
 
             public override int TopPathUpgrades => 5;
             public override int MiddlePathUpgrades => 5;
@@ -100,6 +96,7 @@ namespace Psychomonkey
                 agemodel.lifespan = 999999f;
                 agemodel.rounds = 9999;
                 projectile.AddBehavior(agemodel);
+                attackModel.weapons[0].SetEmission(new SingleEmmisionTowardsTargetModel("SingleEmmisionTowardsTargetModel_", null, 0f));
             }
         }
         public class psychodart : ModDisplay
@@ -403,7 +400,7 @@ namespace Psychomonkey
                 towerModel.AddBehavior(neurosword);
             }
         }
-                public class u500 : ModUpgrade<Psychomonkey>
+        public class u500 : ModUpgrade<Psychomonkey>
         {
             public override int Path => TOP;
             public override int Tier => 5;
@@ -456,20 +453,22 @@ namespace Psychomonkey
                 var attackModel = towerModel.GetAttackModel();
                 attackModel.weapons[0].projectile.GetBehavior<TravelStraitModel>().Speed = 50f;
                 attackModel.weapons[0].projectile.ApplyDisplay<eqproj>();
-                attackModel.weapons[0].rate = 2f;
+                attackModel.weapons[0].rate = 3.6f;
                 attackModel.weapons[0].projectile.pierce = 1;
+                attackModel.weapons[0].projectile.maxPierce = 1;
                 attackModel.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("BombShooter").GetWeapon().projectile.GetBehavior<CreateEffectOnContactModel>().Duplicate());
                 attackModel.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("BombShooter-020").GetWeapon().projectile.GetBehavior<CreateProjectileOnContactModel>().Duplicate());
                 attackModel.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("BombShooter").GetWeapon().projectile.GetBehavior<CreateSoundOnProjectileCollisionModel>().Duplicate());
                 attackModel.weapons[0].projectile.GetDamageModel().damage = 0;
                 attackModel.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
                 var quake = Game.instance.model.GetTower(TowerType.BombShooter).GetWeapon().projectile.GetBehavior<CreateProjectileOnContactModel>().Duplicate();
-                quake.projectile = Game.instance.model.GetTowerFromId("NinjaMonkey-002").GetAttackModel(1).weapons[0].projectile.Duplicate();
+                quake.projectile = Game.instance.model.GetTowerFromId("SpikeFactory").GetAttackModel().weapons[0].projectile.Duplicate();
                 quake.projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
                 quake.projectile.ApplyDisplay<eq>();
                 quake.projectile.GetDamageModel().damage = 2;
-                quake.projectile.pierce = 11;
-                quake.projectile.GetBehavior<AgeModel>().Lifespan = 20f;
+                quake.projectile.RemoveBehavior<SetSpriteFromPierceModel>();
+                quake.projectile.pierce = 55;
+                quake.projectile.GetBehavior<AgeModel>().Lifespan = 25f;
                 quake.projectile.scale += .2f;
                 attackModel.weapons[0].projectile.AddBehavior(quake);
 
@@ -543,7 +542,7 @@ namespace Psychomonkey
             public override string Icon => "u030";
             public override int MaxStackSize => 1;
         }
-   
+
         public class u030 : ModUpgrade<Psychomonkey>
         {
             public override int Path => MIDDLE;
@@ -674,21 +673,25 @@ namespace Psychomonkey
             attackModel.range = 115;
             towerModel.showBuffs = false;
             attackModel.weapons[0].projectile.ApplyDisplay<eqprojgolem>();
-            attackModel.weapons[0].rate += 3f;
+            attackModel.weapons[0].rate += 5f;
             attackModel.weapons[0].projectile.pierce = 1;
+            attackModel.weapons[0].projectile.maxPierce = 1;
             attackModel.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("BombShooter-300").GetWeapon().projectile.GetBehavior<CreateEffectOnContactModel>().Duplicate());
             attackModel.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("BombShooter-020").GetWeapon().projectile.GetBehavior<CreateProjectileOnContactModel>().Duplicate());
             attackModel.weapons[0].projectile.AddBehavior(Game.instance.model.GetTowerFromId("BombShooter").GetWeapon().projectile.GetBehavior<CreateSoundOnProjectileCollisionModel>().Duplicate());
             attackModel.weapons[0].projectile.GetDamageModel().damage = 0;
             attackModel.weapons[0].projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
             var quake = Game.instance.model.GetTower(TowerType.BombShooter).GetWeapon().projectile.GetBehavior<CreateProjectileOnContactModel>().Duplicate();
-            quake.projectile = Game.instance.model.GetTowerFromId("NinjaMonkey-002").GetAttackModel(1).weapons[0].projectile.Duplicate();
+            quake.projectile = Game.instance.model.GetTowerFromId("SpikeFactory").GetAttackModel().weapons[0].projectile.Duplicate();
             quake.projectile.GetDamageModel().immuneBloonProperties = BloonProperties.None;
             quake.projectile.ApplyDisplay<golemeq>();
-            quake.projectile.GetDamageModel().damage = 70;
-            quake.projectile.pierce = 90;
-            quake.projectile.GetBehavior<AgeModel>().Lifespan = 10f;
+            quake.projectile.GetDamageModel().damage = 35;
+            quake.projectile.pierce = 750;
+            quake.projectile.GetBehavior<AgeModel>().Lifespan = 40f;
+            quake.projectile.GetBehavior<DisplayModel>().positionOffset = new Il2CppAssets.Scripts.Simulation.SMath.Vector3(0, 0, 10);
             quake.projectile.scale += 1.4f;
+            quake.projectile.RemoveBehavior<SetSpriteFromPierceModel>();
+            quake.projectile.collisionPasses = new int[] { 0, -1 };
             quake.projectile.AddBehavior(new DamageModifierForTagModel("Moab", "Moab", 1, 3, false, true));
             quake.projectile.AddBehavior(new DamageModifierForTagModel("Bfb", "Bfb", 1, 9, false, true));
             quake.projectile.AddBehavior(new DamageModifierForTagModel("Zomg", "Zomg", 1, 23, false, true));
@@ -716,4 +719,4 @@ namespace Psychomonkey
             Set2DTexture(node, Name);
         }
     }
-}      
+}
